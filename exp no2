@@ -1,0 +1,17 @@
+import plotly.express as px
+import pandas as pd
+iris = px.data.iris()
+print("1. Print the first 10 instances.")
+print(iris.head(10))
+print("\n")
+num_rows, num_cols = iris.shape
+print(f"2. Print the Number of Rows and Columns of the dataset. \n ({num_rows}, {num_cols})")
+print("\n")
+column_names = iris.columns.tolist()
+print(f"3. Print the Column names [Attribute Names] of the dataset.\n {column_names}")
+print("\n")
+numerical_attributes = iris.select_dtypes(include=['float64'])
+mean_values = numerical_attributes.mean()
+print("4. Mean of all the Numerical Attributes:")
+for column in mean_values.index:
+    print(f"{column.replace('_', ' ').title()} - Mean = {mean_values[column]}")

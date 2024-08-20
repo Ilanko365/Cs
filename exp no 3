@@ -1,0 +1,27 @@
+import plotly.express as px
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+iris = px.data.iris()
+numerical_attributes = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width']
+num_rows, num_cols = iris.shape
+print(f"1. Total Number of Records. \n ({num_rows}, {num_cols})")
+print("\n")
+print("2. Print the Normal distribution of the Numerical Attributes (graphs)")
+print("\n")
+print('3. Print the Mean and Standard deviation of the Numerical Attributes')
+for attribute in numerical_attributes:
+    mean = iris[attribute].mean()
+    std_dev = iris[attribute].std()
+    print(f"\n{attribute} - Mean: {mean:.15f}, Standard Deviation: {std_dev:.5f}")
+    plt.figure(figsize=(10, 6))
+    sns.histplot(iris[attribute], kde=True, stat="density", linewidth=0, bins=30, label='Kernel Density Estimate')
+    xmin, xmax = plt.xlim()
+    x = np.linspace(xmin, xmax, 100)
+    p = (1 / (std_dev * np.sqrt(2 * np.pi))) * np.exp(-0.5 * ((x - mean) / std_dev) ** 2)
+    plt.plot(x, p, 'k', linewidth=2, label='Normal Distribution')
+    plt.title(f'Normal Distribution of {attribute}')
+    plt.xlabel(attribute)
+    plt.ylabel('Density')
+    plt.legend()
+    plt.show()

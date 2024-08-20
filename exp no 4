@@ -1,0 +1,25 @@
+import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+iris = px.data.iris()
+attribute = 'petal_width'
+print("1. Print the Statistical Description for the attribute “Petal Width”")
+plt.figure(figsize=(10, 6))
+sns.boxplot(y=iris[attribute], width=0.2) 
+plt.title(f'Box Plot of {attribute}')
+plt.ylabel(attribute)  
+plt.xlabel('')  
+plt.show()
+attr_desc = iris[attribute].describe()
+print(f"\nStatistical description of '{attribute}':")
+print(attr_desc)
+print("\n")
+print("2. Print the Box Plot of the attribute “Petal Width” \n")
+print('3. Print the dependency curve of the attribute')
+plt.figure(figsize=(10, 6))
+sns.kdeplot(iris[attribute], fill=True)
+plt.title(f'Dependency Curve (KDE) of {attribute}')
+plt.xlabel(attribute)
+plt.ylabel('Density')
+plt.show()

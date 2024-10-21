@@ -1,0 +1,33 @@
+import numpy as np
+from scipy.optimize import minimize
+np.random.seed(42) # For reproducibility
+x = np.linspace(-10, 30, 100)
+true_beta0 = 10
+true_beta1 = 4
+e = np.random.normal(loc=0, scale=1, size=x.shape)
+y = true_beta0 + true_beta1 * x + e
+def negative_log_likelihood(params, x, y):
+    beta0, beta1, sigma = params
+    y_pred = beta0 + beta1 * x
+    residuals = y - y_pred
+    n = len(y)
+    log_likelihood = -0.5 * n * (np.log(2 * np.pi * sigma**2) + (residuals**2 / sigma**2).sum())
+    return -log_likelihood
+initial_guess = [0, 0, 1]
+result = minimize(
+    negative_log_likelihood,
+    initial_guess,
+    args=(x, y),
+    method='L-BFGS-B',
+    bounds=[(-np.inf, np.inf), (-np.inf, np.inf), (1e-6, np.inf)] # Avoid sigma <= 0
+)
+print(f"message: {result.message}")
+print(f"success: {result.success}")
+print(f"status: {result.status}")
+print(f"fun: {result.fun}")
+print(f"x: {result.x}")
+print(f"nit: {result.nit}")
+print(f"jac: {result.jac}")
+print(f"nfev: {result.nfev}")
+print(f"njev: {result.njev}")
+print(f"hess_inv: {result.hess_inv}")

@@ -22,7 +22,6 @@ print("Minimum:")
 print(df_2d.min())
 print("Maximum:")
 print(df_2d.max())
-
 data = {
     'method': ['Astrometry', 'Eclipse Timing Variations', 'Imaging', 'Microlensing', 'Orbital Brightness Modulation', 'Pulsar Timing', 'Pulsation Timing Variations', 'Radial Velocity', 'Transit', 'Transit Timing Variations'],
     'number': [0.0, 0.5, 0.933035, 0.387553, 0.577350, 1.095445, None, 1.157141, 1.399119, 0.5],
@@ -31,7 +30,6 @@ data = {
     'distance': [4.094148, 213.203907, 53.736817, 2076.611556, 0.0, None, None, 45.559381, 913.876990, 915.819487],
     'year': [2.121320, 1.414214, 2.781901, 2.859697, 1.154701, 8.384510, None, 4.249052, 2.077867, 1.290994]
 }
-
 df_nd = pd.DataFrame(data)
 print("\nAggregation of n-D Data:")
 print("Shape or Size:")

@@ -1,0 +1,42 @@
+import numpy as np
+import pandas as pd
+data_1d = np.array([0.156018, 0.301511, 0.524756, 0.611853, 0.950714])
+print("1D Data Aggregation:")
+print("Sum:", np.sum(data_1d))
+print("Mean:", np.mean(data_1d))
+print("Count:", len(data_1d))
+print("Minimum:", np.min(data_1d))
+print("Maximum:", np.max(data_1d))
+data_2d = np.array([[0.183405, 0.221868], [0.397629, 0.408451],[0.399153, 0.373650], [0.524756, 0.611853], [0.950714, 0.156018]])
+df_2d = pd.DataFrame(data_2d)
+print("\n2D Data Aggregation:")
+print("Sum (Columnwise):")
+print(df_2d.sum())
+print("Sum (Rowwise):")
+print(df_2d.sum(axis=1))
+print("Mean:")
+print(df_2d.mean())
+print("Count (Shape):")
+print(df_2d.shape)
+print("Minimum:")
+print(df_2d.min())
+print("Maximum:")
+print(df_2d.max())
+
+data = {
+    'method': ['Astrometry', 'Eclipse Timing Variations', 'Imaging', 'Microlensing', 'Orbital Brightness Modulation', 'Pulsar Timing', 'Pulsation Timing Variations', 'Radial Velocity', 'Transit', 'Transit Timing Variations'],
+    'number': [0.0, 0.5, 0.933035, 0.387553, 0.577350, 1.095445, None, 1.157141, 1.399119, 0.5],
+    'orbital_period': [544.217663, 2499.130945, 213978.177277, 1113.166333, 0.725493, 16313.265573, None, 1454.926210, 46.185893, 71.599884],
+    'mass': [None, 1.308148, None, None, None, None, None, 3.825883, None, None],
+    'distance': [4.094148, 213.203907, 53.736817, 2076.611556, 0.0, None, None, 45.559381, 913.876990, 915.819487],
+    'year': [2.121320, 1.414214, 2.781901, 2.859697, 1.154701, 8.384510, None, 4.249052, 2.077867, 1.290994]
+}
+
+df_nd = pd.DataFrame(data)
+print("\nAggregation of n-D Data:")
+print("Shape or Size:")
+print(df_nd.shape)
+print("Statistical values based on 'method' and 'orbital_period':")
+print(df_nd.groupby(['method', 'orbital_period'])['year'].describe())
+print("Standard Deviation based on 'method':")
+print(df_nd)

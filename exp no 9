@@ -1,0 +1,13 @@
+import matplotlib.pyplot as plt
+products = ['computer', 'monitor', 'laptop', 'printer', 'tablet']
+quantities = [320, 450, 300, 120, 280]
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+ax2.bar(products, quantities, color='lightgreen')
+ax2.set_xlabel('Product')
+ax2.set_ylabel('Quantity')
+ax2.set_title('Store Inventory')
+ax1.barh(products, quantities, color='skyblue')
+ax1.set_xlabel('Quantity')
+ax1.set_ylabel('Product')
+ax1.set_title('Store Inventory')    
+plt.show()

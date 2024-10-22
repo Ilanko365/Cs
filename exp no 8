@@ -1,0 +1,30 @@
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+iris = load_iris()
+data = iris.data
+target = iris.target
+feature_names = iris.feature_names
+target_names = iris.target_names
+scaler = StandardScaler()
+scaled_data = scaler.fit_transform(data)
+print("Standardized Data (first 7 samples):")
+print(scaled_data[:7]) 
+pca = PCA(n_components=2)
+pca_result = pca.fit_transform(scaled_data)
+print("\nPCA Result (first 7 samples):")
+print(pca_result[:7])
+plt.figure(figsize=(10, 8))
+scatter = plt.scatter(pca_result[:, 0], pca_result[:, 1],c=target, cmap='viridis', edgecolors='w', s=100)
+handles = [plt.Line2D([0], [0], marker='o', color='w', label=target_names[i],markersize=10, markerfacecolor=scatter.cmap(scatter.norm(i)))
+for i in range(len(target_names))]
+plt.legend(handles=handles, title='Species')
+plt.title('PCA of Iris Dataset')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.grid(True)
+plt.show()
+explained_variance_ratio = pca.explained_variance_ratio_
+print("\nVariance Ratio:")
+print(explained_variance_ratio)

@@ -1,0 +1,46 @@
+import numpy as np
+from sklearn.datasets import load_wine
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = load_wine()
+X = data.data
+y = data.target
+n_classes = len(np.unique(y))
+n_features = X.shape[1]
+print(f"Number of classes: {n_classes}")
+print(f"Number of features: {n_features}")
+X = StandardScaler().fit_transform(X)
+means = np.array([X[y == i].mean(axis=0) for i in range(n_classes)])
+overall_mean = X.mean(axis=0)
+S_B = np.zeros((n_features, n_features))
+for i, mean in enumerate(means):
+    n_i = np.sum(y == i)
+    mean_diff = (mean - overall_mean).reshape(n_features, 1)
+    S_B += n_i * (mean_diff).dot(mean_diff.T)
+S_W = np.zeros((n_features, n_features))
+for i in range(n_classes):
+    class_scatter = np.cov(X[y == i].T, bias=True)
+    S_W += class_scatter
+eigenvalues, eigenvectors = np.linalg.eig(np.linalg.inv(S_W).dot(S_B))
+sorted_indices = np.argsort(eigenvalues)[::-1]
+eigenvalues = eigenvalues[sorted_indices]
+eigenvectors = eigenvectors[:, sorted_indices]
+variance_ratio = eigenvalues / np.sum(eigenvalues)
+print(f"Variance Ratio:\n{variance_ratio[:n_classes-1]}")
+k = n_classes - 1
+W = eigenvectors[:, :k]
+X_lda = X.dot(W)
+palette = sns.color_palette("husl", n_classes)
+plt.figure(figsize=(20, 10))
+X_lda_scaled = X_lda * 2
+for i in range(n_classes):
+    plt.scatter(X_lda_scaled[y == i, 0], X_lda_scaled[y == i, 1], label=f'Class {i}', alpha=0.8, edgecolors='w', s=100, c=palette[i])
+plt.xlabel('LD 1')
+plt.ylabel('LD 2')
+plt.title('LDA Scatter Plot')
+plt.legend()
+plt.grid(True)  
+plt.xlim([X_lda_scaled[:, 0].min() - 1, X_lda_scaled[:, 0].max() + 1])
+plt.ylim([X_lda_scaled[:, 1].min() - 1, X_lda_scaled[:, 1].max() + 1])
+plt.show()
